@@ -13,8 +13,12 @@
     <title>Library Management System</title>
     <!-- Bootstrap links -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <script src="js/bootstrap.min.js"></script>
     <!-- Font awesome link -->
     <script src="https://kit.fontawesome.com/d68d9e7151.js" crossorigin="anonymous"></script>
+    
+    <!-- Jquery link -->
+    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
     <style>
   .header{
     display: flex;
@@ -34,6 +38,11 @@
     display: flex;
     gap: 10px;
   
+  }
+  .addBookForm{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
   }
 
 
@@ -108,26 +117,39 @@
 
 
 <!-- ADD NEW BOOK-->
-<div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 class="modal-title fs-5" id="addBookLabel">Add new book</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ...
+        <form id="addBookform">
+          <div class="form-group">
+            <label for="bookTitle">Book Title</label>
+            <input type="text" name="Book Title" class="form-control" required placeholder="Enter Title Here">
+          </div>
+          <div class="form-group">
+            <label for="bookDesc">Book Description</label>
+            <input type="text" name="Book Description" class="form-control" required placeholder="Enter Destription Here">
+          </div>
+          <div class= " form-group">
+            <label for="author">Book Author</label>
+            <input type="text" name="Book Author" class="form-control" required placeholder="Enter Author Here">
+          </div>
+          <div class= "form-group">
+            <label for="ISBN">ISBN</label>
+            <input type="number" name="ISBN" class="form-control" required placeholder="Enter ISBN Here">
+          </div>
+        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-primary">Add Book</button>
       </div>
     </div>
   </div>
 </div>
-
-<script src="js/bootstrap.min.js"></script>
-<!-- Jquery link -->
-<script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 </body>
 </html>
