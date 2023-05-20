@@ -1,3 +1,4 @@
+<!-- DataBase Connect -->
 <?php
     class DBConnection{
         private $server = "localhost";

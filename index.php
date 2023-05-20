@@ -146,10 +146,22 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Add Book</button>
+        <button id="addBookbtn" type="button" class="btn btn-primary">Add Book</button>
       </div>
     </div>
   </div>
 </div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#addBookbtn').on('click', function() {
+        $.post('classes/Book.php', $('form#addBookform').serialize(), function(data){});
+    });
+  });
+
+</script>
+
+</script>
+
 </body>
 </html>
