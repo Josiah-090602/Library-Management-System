@@ -3,50 +3,21 @@
 
   $db = new DBconnection(); 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Library Management System</title>
-    <!-- Bootstrap links -->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <script src="js/bootstrap.min.js"></script>
-    <!-- Font awesome link -->
-    <script src="https://kit.fontawesome.com/d68d9e7151.js" crossorigin="anonymous"></script>
-    
-    <!-- Jquery link -->
-    <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-    <style>
-  .header{
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .btn-con{
-    display:flex;
-    width: 75%;
-    align-items: center;
-    justify-content: end;
-  }
-  h5{
-    margin: 0;
-  }
-  .manage{
-    display: flex;
-    gap: 10px;
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Library Management System</title>
+  <!-- Bootstrap links -->
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <script src="js/bootstrap.min.js"></script>
+  <!-- Font awesome link -->
+  <script src="https://kit.fontawesome.com/d68d9e7151.js" crossorigin="anonymous"></script>
   
-  }
-  .addBookForm{
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-
-
-  </style>
+  <!-- Jquery link -->
+  <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
 </head>
 <body>
 <!-- NavigationBar -->
@@ -74,37 +45,37 @@
     </div>
   </div>
 </nav>
-
 <!-- Dashboard -->
 <div class="mt-3 container">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
-        <div class="header card-header">
-          <i class="fs-5 fa-solid fa-book"></i>
+        <div class="header card-header d-flex justify-content-between align-items-center">
           <h5>List of Books</h5>
           <div class="btn-con">
-          <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
+            <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
           </div>
-
         </div>
         <div class="card-body">
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th width= "15%">No.</th>
-                  <th width= "55%">Book Title</th>
-                  <th width= "30%">Manage book</th>
+                  <th scope="col">Book ID</th>
+                  <th scope="col">Title</th>
+                  <th scope="col">Publisher</th>
+                  <th scope="col">ISBN</th>
+                  <th scope="col"></th>
                 </tr>
               </thead>
-
               <tbody>
-                  <tr class="content">
-                    <td>1</td>
-                    <td>Hello</td>
-                    <td class="manage">
-                      <button class="btn btn-primary btn-small"><i class="fa-regular fa-pen-to-square"></i>Edit Book</button>
-                      <button class="btn btn-danger btn-small"><i class="fa-solid fa-trash"></i>Delete</button>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td>The Pirate King</td>
+                    <td>Con D. Oriano</td>
+                    <td>0-342-23452-0</td>
+                    <td class="manage d-flex gap-2 justify-content-end">
+                      <button class="btn btn-primary btn-small"><i class="fa-regular fa-pen-to-square"></i></button>
+                      <button class="btn btn-danger btn-small"><i class="fa-solid fa-trash mr-2"></i></button>
                     </td>
                   </tr>
               </tbody>
@@ -114,8 +85,6 @@
     </div>
   </div>
 </div>
-
-
 <!-- ADD NEW BOOK-->
 <div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
