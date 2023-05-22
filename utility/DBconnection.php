@@ -1,6 +1,5 @@
-<!-- DataBase Connect -->
 <?php
-    class DBConnection{
+    class DBConnection {
         private $server = "localhost";
         private $username = "root";
         private $password = "";

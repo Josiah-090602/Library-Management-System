@@ -1,7 +1,7 @@
 <?php
-  include 'utility/DBconnection.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/utility/DBConnection.php';
 
-  $db = new DBconnection(); 
+  $db = new DBConnection(); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -10,17 +10,16 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Library Management System</title>
-  <!-- Bootstrap links -->
+
   <link rel="stylesheet" href="css/bootstrap.min.css">
-  <script src="js/bootstrap.min.js"></script>
-  <!-- Font awesome link -->
+ 
   <script src="https://kit.fontawesome.com/d68d9e7151.js" crossorigin="anonymous"></script>
+
+  <script src="js/bootstrap.min.js"></script>
   
-  <!-- Jquery link -->
   <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-</head>
 <body>
-<!-- NavigationBar -->
+
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand mx-3" href="#"><i class= " mx-2 fa-solid fa-book-open"></i>Library Management System</a>
@@ -30,13 +29,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="mx-3 nav-link active" aria-current="page" href="#">Home</a>
+          <a class="mx-3 nav-link active" href="#">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="mx-3 nav-link" href="#">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="mx-3 nav-link" href="#">Books</a>
+          <a class="mx-3 nav-link active" href="#">Students</a>
         </li>
         <li class="nav-item">
           <a class="mx-3 nav-link" href="#">Borrowed</a>
@@ -45,7 +41,7 @@
     </div>
   </div>
 </nav>
-<!-- Dashboard -->
+
 <div class="mt-3 container">
   <div class="row">
     <div class="col-md-12">
@@ -85,7 +81,7 @@
     </div>
   </div>
 </div>
-<!-- ADD NEW BOOK-->
+
 <div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -115,21 +111,21 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="addBookbtn" type="button" class="btn btn-primary">Add Book</button>
+        <button id="addBookBtn" type="button" class="btn btn-primary">Add Book</button>
       </div>
     </div>
   </div>
 </div>
 
-<script type="text/javascript">
+<script>
   $(document).ready(function() {
-    $('#addBookbtn').on('click', function() {
-        $.post('classes/Book.php', $('form#addBookform').serialize(), function(data){});
+    $('#addBookBtn').on('click', function() {
+        $.post('classes/Book.php', $('form#addBookform').serialize(), function(data){
+          var data  = JSON.parse(data);
+          console.log(data);
+        });
     });
   });
-
-</script>
-
 </script>
 
 </body>
