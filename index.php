@@ -1,5 +1,5 @@
 <?php
-  include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/utility/DBConnection.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/classes/Book.php';
 
   $db = new DBConnection(); 
 ?>
@@ -58,22 +58,39 @@
                 <tr>
                   <th scope="col">Book ID</th>
                   <th scope="col">Title</th>
-                  <th scope="col">Publisher</th>
+                  <th scope="col">Author</th>
                   <th scope="col">ISBN</th>
                   <th scope="col"></th>
                 </tr>
               </thead>
               <tbody>
+                <?php 
+                    
+                    $bookObj = new Book();
+                    $books = $bookObj->getAllBooks();
+                    $no = 0;
+                    foreach ($books as $book):
+                      $no++;
+                ?>
+            
                   <tr>
-                    <th scope="row">1</th>
-                    <td>The Pirate King</td>
-                    <td>Con D. Oriano</td>
-                    <td>0-342-23452-0</td>
+                    <th scope="row"><?php echo $no; ?></th>
+                    <td>
+                      <?php echo $book['bookTitle']; ?>
+                    </td>
+                    <td>
+                      <?php echo $book['author']; ?>
+                    </td>
+                    <td>
+                      <?php echo $book['ISBN']; ?>
+                    </td>
+
                     <td class="manage d-flex gap-2 justify-content-end">
-                      <button class="btn btn-primary btn-small"><i class="fa-regular fa-pen-to-square"></i></button>
-                      <button class="btn btn-danger btn-small"><i class="fa-solid fa-trash mr-2"></i></button>
+                      <button class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square editBookBtn" id="<?php echo $book['bookId']?>"></i></button>
+                      <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash mr-2"></i></button>
                     </td>
                   </tr>
+                  <?php endforeach; ?>
               </tbody>
             </table>
         </div>
@@ -81,7 +98,7 @@
     </div>
   </div>
 </div>
-
+<!-- Add Form Modal -->
 <div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -93,15 +110,15 @@
         <form id="addBookform">
           <div class="form-group">
             <label for="bookTitle">Book Title</label>
-            <input type="text" name="Book Title" class="form-control" required placeholder="Enter Title Here">
+            <input type="text" name="bookTitle" class="form-control" required placeholder="Enter Title Here">
           </div>
           <div class="form-group">
             <label for="bookDesc">Book Description</label>
-            <input type="text" name="Book Description" class="form-control" required placeholder="Enter Destription Here">
+            <input type="text" name="bookDesc" class="form-control" required placeholder="Enter Destription Here">
           </div>
           <div class= " form-group">
             <label for="author">Book Author</label>
-            <input type="text" name="Book Author" class="form-control" required placeholder="Enter Author Here">
+            <input type="text" name="author" class="form-control" required placeholder="Enter Author Here">
           </div>
           <div class= "form-group">
             <label for="ISBN">ISBN</label>
@@ -117,12 +134,90 @@
   </div>
 </div>
 
-<script>
+<!-- Edit Form Modal -->
+<div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editLabel">Edit book</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editBookform">
+          <div class="form-group">
+            <label for="bookTitle">Book Title</label>
+            <input type="text" name="bookTitle" id="editBookTitle" class="form-control" required placeholder="Enter Title Here">
+            <input type="hidden" name="bookId" id="bookId">
+          </div>
+          <div class="form-group">
+            <label for="bookDesc">Book Description</label>
+            <input type="text" name="bookDesc" id="bookDesc" class="form-control" required placeholder="Enter Description Here">
+          </div>
+          <div class= " form-group">
+            <label for="author">Book Author</label>
+            <input type="text" name="author" id="author" class="form-control" required placeholder="Enter Author Here">
+          </div>
+          <div class= "form-group">
+            <label for="ISBN">ISBN</label>
+            <input type="number" name="ISBN" id="ISBN" class="form-control" required placeholder="Enter ISBN Here">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="editBookBtn" type="button" class="btn btn-primary">Edit Book</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Alert Modal -->
+<div class="modal fade" id="addBookAlert" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="alertModal">Alert</h1>
+
+      </div>
+      <div class="modal-body">
+          <div class="alert"></div>
+      </div>
+    </div>
+  </div>
+</div>
+ 
+
+<script type="text/javascript">
   $(document).ready(function() {
     $('#addBookBtn').on('click', function() {
         $.post('classes/Book.php', $('form#addBookform').serialize(), function(data){
           var data  = JSON.parse(data);
-          console.log(data);
+          // console.log(data);
+
+        if(data.type == 'success'){
+          $('#addBook').modal('hide');
+          $('#addBookAlert').modal('show');
+          $('#addBookAlert .alert').addClass('alert-success').append(data.message).delay(500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#addBook').modal('hide');
+          $('#addBookAlert').modal('show');
+          $('#addBookAlert .alert').addClass('alert-danger').append(data.message).delay(15000).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+        });
+    });
+
+    $('.editBookBtn').on('click', function(e) { 
+      $('#editBookModal').modal('show');
+        $.post('classes/Book.php', {editId: e.target.id}, function(data){
+          var data  = JSON.parse(data);
+          $('#editBookTitle').val(data.bookTitle);
+          $('#bookDesc').val(data.bookDesc);
+          $('#author').val(data.author);
+          $('#ISBN').val(data.ISBN);
+          
         });
     });
   });
