@@ -67,7 +67,16 @@
             }else{
                 return json_encode(array('type' => 'fail', 'message' => 'Book Datails Failed to Update.'));
             }
-
+        }
+        public function deleteBook($deleteId){
+            $sql = "DELETE FROM books WHERE bookId = $deleteId";
+            $execute = $this->conn->query($sql);
+            
+            if($execute){
+                return json_encode(array('type' => 'success', 'message' => 'Details Deleted'));
+            }else{
+                return json_encode(array('type' => 'fail', 'message' => 'Unable to Delete Book Details'));
+            }
         } 
     }
 
@@ -87,6 +96,11 @@
     if(isset($_POST['bookId'])){
         $updateBook = $book->updateBook($_POST);
         echo $updateBook;
+    }
+
+    if(isset($_POST['deleteId'])){
+        $deleteBook = $book->deleteBook($_POST['deleteId']);
+        echo $deleteBook;
     }
 
 ?>

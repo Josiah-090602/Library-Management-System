@@ -88,7 +88,7 @@
 
                     <td class="manage d-flex gap-2 justify-content-end">
                       <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
-                      <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                      <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
                     </td>
                   </tr>
                   <?php endforeach; ?>
@@ -173,7 +173,6 @@
   </div>
 </div>
 
-
 <!-- Alert Modal -->
 <div class="modal fade" id="PopAlert" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -201,13 +200,13 @@
         if(data.type == 'success'){
           $('#addBook').modal('hide');
           $('#PopAlert').modal('show');
-          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1000).fadeOut('slow',function(){
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
             location.reload();
           });
         }else{
           $('#addBook').modal('hide');
           $('#PopAlert').modal('show');
-          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1000).fadeOut('slow',function(){
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
             location.reload();
           });
         }
@@ -237,18 +236,43 @@
         if(data.type == 'success'){
           $('#editBookModal').modal('hide');
           $('#PopAlert').modal('show');
-          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1000).fadeOut('slow',function(){
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
             location.reload();
           });
         }else{
           $('#editBookModal').modal('hide');
           $('#PopAlert').modal('show');
-          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1000).fadeOut('slow',function(){
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
             location.reload();
           });
         }
       });
     });
+
+    //Delete Book Function
+    $('.deleteBookBtn').on('click', function(e){
+      var deleteConfirm = confirm("Are you sure you want to delete this book?");
+      if(deleteConfirm){
+        $.post('classes/Book.php', {deleteId: e.target.id}, function(data){
+        var data  = JSON.parse(data);
+        
+        if(data.type == 'success'){
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
+      }else{
+        return false;
+      }
+    });
+
   });
 </script>
 
