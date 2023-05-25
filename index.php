@@ -14,10 +14,11 @@
   <link rel="stylesheet" href="css/bootstrap.min.css">
  
   <script src="https://kit.fontawesome.com/d68d9e7151.js" crossorigin="anonymous"></script>
-
-  <script src="js/bootstrap.min.js"></script>
   
   <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
+  
+  <script src="js/bootstrap.min.js"></script>
+  
 <body>
 
 <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
@@ -32,7 +33,7 @@
           <a class="mx-3 nav-link active" href="#">Dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="mx-3 nav-link active" href="#">Students</a>
+          <a class="mx-3 nav-link" href="#">Students</a>
         </li>
         <li class="nav-item">
           <a class="mx-3 nav-link" href="#">Borrowed</a>
@@ -86,8 +87,8 @@
                     </td>
 
                     <td class="manage d-flex gap-2 justify-content-end">
-                      <button class="btn btn-primary btn-sm"><i class="fa-regular fa-pen-to-square editBookBtn" id="<?php echo $book['bookId']?>"></i></button>
-                      <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash mr-2"></i></button>
+                      <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
+                      <button class="btn btn-danger btn-sm"><i class="fa-solid fa-trash mr-2"></i>Delete</button>
                     </td>
                   </tr>
                   <?php endforeach; ?>
@@ -98,6 +99,7 @@
     </div>
   </div>
 </div>
+
 <!-- Add Form Modal -->
 <div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -139,19 +141,19 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="editLabel">Edit book</h1>
+        <h1 class="modal-title fs-5" id="editBookLabel">Edit Book Details</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="editBookform">
+        <form id="editBookForm">
           <div class="form-group">
             <label for="bookTitle">Book Title</label>
-            <input type="text" name="bookTitle" id="editBookTitle" class="form-control" required placeholder="Enter Title Here">
+            <input type="text" name="updateBookTitle" id="editBookTitle" class="form-control" required placeholder="Enter Title Here">
             <input type="hidden" name="bookId" id="bookId">
           </div>
           <div class="form-group">
             <label for="bookDesc">Book Description</label>
-            <input type="text" name="bookDesc" id="bookDesc" class="form-control" required placeholder="Enter Description Here">
+            <input type="text" name="bookDesc" id="bookDesc" class="form-control" required placeholder="Enter Destription Here">
           </div>
           <div class= " form-group">
             <label for="author">Book Author</label>
@@ -161,17 +163,19 @@
             <label for="ISBN">ISBN</label>
             <input type="number" name="ISBN" id="ISBN" class="form-control" required placeholder="Enter ISBN Here">
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="editBookBtn" type="button" class="btn btn-primary">Edit Book</button>
+        <button type="button" class="btn btn-primary updateBookBtn" id="updateBook" name="updateBtn">Save Changes</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
+
+
 <!-- Alert Modal -->
-<div class="modal fade" id="addBookAlert" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
+<div class="modal fade" id="PopAlert" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -188,6 +192,7 @@
 
 <script type="text/javascript">
   $(document).ready(function() {
+    // Add Book Functionality
     $('#addBookBtn').on('click', function() {
         $.post('classes/Book.php', $('form#addBookform').serialize(), function(data){
           var data  = JSON.parse(data);
@@ -195,30 +200,54 @@
 
         if(data.type == 'success'){
           $('#addBook').modal('hide');
-          $('#addBookAlert').modal('show');
-          $('#addBookAlert .alert').addClass('alert-success').append(data.message).delay(500).fadeOut('slow',function(){
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1000).fadeOut('slow',function(){
             location.reload();
           });
         }else{
           $('#addBook').modal('hide');
-          $('#addBookAlert').modal('show');
-          $('#addBookAlert .alert').addClass('alert-danger').append(data.message).delay(15000).fadeOut('slow',function(){
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1000).fadeOut('slow',function(){
             location.reload();
           });
         }
-        });
+      });
     });
 
-    $('.editBookBtn').on('click', function(e) { 
+    // Edit Book Button Function
+    $('.editBookBtn').on('click', function(e) {
       $('#editBookModal').modal('show');
         $.post('classes/Book.php', {editId: e.target.id}, function(data){
           var data  = JSON.parse(data);
+          // console.log(data);
+          $('#bookId').val(data.bookId);
           $('#editBookTitle').val(data.bookTitle);
           $('#bookDesc').val(data.bookDesc);
           $('#author').val(data.author);
           $('#ISBN').val(data.ISBN);
-          
-        });
+
+      });
+    });
+
+    // Edit Book Functionality
+    $('#updateBook').on('click', function() {
+        $.post('classes/Book.php', $('form#editBookForm').serialize(), function(data){
+          var data  = JSON.parse(data);
+
+        if(data.type == 'success'){
+          $('#editBookModal').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1000).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#editBookModal').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1000).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
     });
   });
 </script>

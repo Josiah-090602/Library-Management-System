@@ -52,6 +52,23 @@
                 return json_encode($data);
             }
         }
+        public function updateBook($post){
+            $bookId = $post['bookId'];
+            $bookTitle = $post['updateBookTitle'];
+            $bookDesc = $post['bookDesc'];
+            $author = $post['author'];
+            $ISBN = $post['ISBN'];
+
+            $sql = "UPDATE books SET bookTitle = '$bookTitle', bookDesc = '$bookDesc', author = '$author', ISBN= $ISBN WHERE bookId = $bookId";
+            $result = $this->conn->query($sql);
+
+            if($result){
+                return json_encode(array('type' => 'success', 'message' => 'Book Details Updated.'));
+            }else{
+                return json_encode(array('type' => 'fail', 'message' => 'Book Datails Failed to Update.'));
+            }
+
+        } 
     }
 
     $book = new Book();
@@ -65,6 +82,11 @@
     if(isset($_POST['editId'])) {
         $editBook = $book->editBook($_POST['editId']);
         echo $editBook;
+    }
+    
+    if(isset($_POST['bookId'])){
+        $updateBook = $book->updateBook($_POST);
+        echo $updateBook;
     }
 
 ?>
