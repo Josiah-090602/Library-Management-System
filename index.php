@@ -347,7 +347,7 @@
         <form id="editStudentForm">
           <div class="form-group">
             <label for="studentNumber">Student Number</label>
-            <input type="text" name="editStudentNumber" id="editStudentNumber" class="form-control" required placeholder="Enter Number Here">
+            <input type="number" name="editStudentNumber" id="editStudentNumber" class="form-control" required placeholder="Enter Number Here">
             <input type="hidden" name="id" id="id">
           </div>
           <div class="form-group">
@@ -364,14 +364,14 @@
           </div>
           <div class= "form-group">
             <label for="address">Address</label>
-            <input type="text" name="address" id="address" class="form-control" required placeholder="Enter Year and Block Here">
+            <input type="text" name="address" id="address" class="form-control" required placeholder="Enter Address">
           </div>
-        </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button id="addStudentBtn" type="button" class="btn btn-primary">Update Student Details</button>
+        <button id="updateStudentBtn" type="button" class="btn btn-primary">Update Student Details</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
@@ -470,18 +470,18 @@
           $('#addStudent').modal('hide');
           $('#PopAlert').modal('show');
           $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
-            reload();
+            location.reload();
           });
         }else{
           $('#addStudent').modal('hide');
           $('#PopAlert').modal('show');
           $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
-            reload();
+            location.reload();
           });
         }
       });
     });
-
+    // Edit Student Button Function
     $('.editStudentBtn').on('click', function(e) {
       $('#editStudentModal').modal('show');
         $.post('classes/Functions.php', {editStudentId: e.target.id}, function(data){
@@ -495,6 +495,28 @@
           $('#address').val(data.address);
       });
     });
+    // Edit Student Functionality
+    $('#updateStudentBtn').on('click', function() {
+        $.post('classes/Functions.php', $('form#editBookForm').serialize(), function(data){
+          var data  = JSON.parse(data);
+
+        if(data.type == 'success'){
+          $('#editStudentModal').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#editStudentModal').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
+    });
+
+
 
   });
 </script>

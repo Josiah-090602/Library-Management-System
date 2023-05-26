@@ -124,9 +124,9 @@
             $result = $this->conn->query($sql);
 
             if($result){
-                return json_encode(array('type' => 'success', 'message' => 'Book Saved'));
+                return json_encode(array('type' => 'success', 'message' => 'Student Registered'));
             }else{
-                return json_encode(array('type' => 'fail', 'message' => 'Book Failed to Save'));
+                return json_encode(array('type' => 'fail', 'message' => 'Failed to Register Student'));
             }
         }
         
@@ -159,23 +159,24 @@
             }
         }
         public function updateStudent($post){
-            $studentNumber = $post['updateStudentName'];
+            $id = $post['id'];
+            $studentNumber = $post['editStudentNumber'];
             $studentName = $post['studentName'];
             $course = $post['course'];
             $yearBlock = $post['yearBlock'];
             $address = $post['address'];
 
-            $sql = "UPDATE students SET studentNumber = $studentNumber, studentName = '$studentName', course = '$course', yearBlock = '$yearBlock', address = '$address' WHERE studentNumber = $studentNumber";
+            $sql = "UPDATE students SET studentNumber = $studentNumber, studentName = '$studentName', course = '$course', yearBlock = '$yearBlock', address = '$address' WHERE id = $id";
             $result = $this->conn->query($sql);
 
             if($result){
-                return json_encode(array('type' => 'success', 'message' => 'Book Details Updated.'));
+                return json_encode(array('type' => 'success', 'message' => 'Student Details Updated.'));
             }else{
-                return json_encode(array('type' => 'fail', 'message' => 'Book Datails Failed to Update.'));
+                return json_encode(array('type' => 'fail', 'message' => 'Student Datails Failed to Update.'));
             }
         }
-        public function deleteStudent($deleteId){
-            $sql = "DELETE FROM students WHERE studentNumber = $deleteId";
+        public function deleteStudent($deleteStudentId){
+            $sql = "DELETE FROM students WHERE studentNumber = $deleteStudentId";
             $execute = $this->conn->query($sql);
             
             if($execute){
@@ -189,7 +190,6 @@
     $student = new Student();
 
     if  (isset($_POST['studentNumber'])) {
-
         $saveStudent = $student->saveStudent($_POST);
         echo $saveStudent;
     }
@@ -199,13 +199,13 @@
         echo $editStudent;
     }
     
-    if(isset($_POST['bookId'])){
+    if(isset($_POST['id'])){
         $updateStudent = $student->updateStudent($_POST);
         echo $updateStudent;
     }
 
-    if(isset($_POST['deleteId'])){
-        $deleteBook = $student->deleteStudent($_POST['deleteId']);
+    if(isset($_POST['deleteStudentId'])){
+        $deleteBook = $student->deleteStudent($_POST['deleteStudentId']);
         echo $deleteBook;
     }
 
