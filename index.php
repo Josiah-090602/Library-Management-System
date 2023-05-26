@@ -38,6 +38,7 @@
 </nav>
 
 <div class="tab-content d-block pt-4" id="v-pills-tabContent">
+
 <!-- Dashboard Section -->
 <div class="tab-pane fade show active mx-5 mt-5 mb-4" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
   <div class="card">
@@ -97,7 +98,7 @@
     <div class="header card-header d-flex justify-content-between align-items-center">
       <h5>List of Students</h5>
       <div class="btn-con">
-        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
+        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Student</button>
       </div>
     </div>
     <div class="card-body">
@@ -198,7 +199,7 @@
 </div>
 </div>
 
-<!-- Add Form Modal -->
+<!-- Add Book Form Modal -->
 <div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -234,7 +235,7 @@
   </div>
 </div>
 
-<!-- Edit Form Modal -->
+<!-- Edit Book Form Modal -->
 <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -271,7 +272,7 @@
   </div>
 </div>
 
-<!-- Alert Modal -->
+<!-- Book Alert Modal -->
 <div class="modal fade" id="PopAlert" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -285,6 +286,7 @@
     </div>
   </div>
 </div>
+
  
 
 <script type="text/javascript">
@@ -310,7 +312,6 @@
         }
       });
     });
-
     // Edit Book Button Function
     $('.editBookBtn').on('click', function(e) {
       $('#editBookModal').modal('show');
@@ -325,7 +326,6 @@
 
       });
     });
-
     // Edit Book Functionality
     $('#updateBook').on('click', function() {
         $.post('classes/Book.php', $('form#editBookForm').serialize(), function(data){
@@ -346,7 +346,6 @@
         }
       });
     });
-
     //Delete Book Function
     $('.deleteBookBtn').on('click', function(e){
       var deleteConfirm = confirm("Are you sure you want to delete this book?");
@@ -370,6 +369,7 @@
         return false;
       }
     });
+
 
   });
 </script>
