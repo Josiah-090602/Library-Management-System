@@ -1,5 +1,6 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/classes/Book.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/classes/Student.php';
 
   $db = new DBConnection(); 
 ?>
@@ -97,44 +98,52 @@
     <div class="header card-header d-flex justify-content-between align-items-center">
       <h5>List of Students</h5>
       <div class="btn-con">
-        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
+        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addStudent">Add Student</button>
       </div>
     </div>
     <div class="card-body">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Book ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Author</th>
-              <th scope="col">ISBN</th>
+              <th scope="col">ID</th>
+              <th scope="col">ID Number</th>
+              <th scope="col">Name</th>
+              <th scope="col">Course</th>
+              <th scope="col">Year and Block</th>
+              <th scope="col">Address</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             <?php 
                 
-                $bookObj = new Book();
-                $books = $bookObj->getAllBooks();
+                $studentObj = new Student();
+                $students = $studentObj->getAllStudents();
                 $no = 0;
-                foreach ($books as $book):
+                foreach ($students as $student):
                   $no++;
             ?>
         
               <tr>
                 <th scope="row"><?php echo $no; ?></th>
                 <td>
-                  <?php echo $book['bookTitle']; ?>
+                  <?php echo $student['studentNumber']; ?>
                 </td>
                 <td>
-                  <?php echo $book['author']; ?>
+                  <?php echo $student['studentName']; ?>
                 </td>
                 <td>
-                  <?php echo $book['ISBN']; ?>
+                  <?php echo $student['course']; ?>
+                </td>
+                <td>
+                  <?php echo $student['yearBlock']; ?>
+                </td>
+                <td>
+                  <?php echo $student['address']; ?>
                 </td>
                 <td class="manage d-flex gap-2 justify-content-end">
-                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
-                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                  <button class="btn btn-primary btn-sm editStudentBtn" id="<?php echo $student['studentNumber'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
+                  <button class="btn btn-danger btn-sm deleteStudentBtn" id="<?php echo $student['studentNumber'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
                 </td>
               </tr>
               <?php endforeach; ?>
@@ -198,7 +207,7 @@
 </div>
 </div>
 
-<!-- Add Form Modal -->
+<!-- Add Book Form Modal -->
 <div class="modal fade" id="addBook" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -234,7 +243,7 @@
   </div>
 </div>
 
-<!-- Edit Form Modal -->
+<!-- Edit Book Form Modal -->
 <div class="modal fade" id="editBookModal" tabindex="-1" aria-labelledby="editBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -265,6 +274,87 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button type="button" class="btn btn-primary updateBookBtn" id="updateBook" name="updateBtn">Save Changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Add Student Form Modal -->
+<div class="modal fade" id="addStudent" tabindex="-1" aria-labelledby="addStudentLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="addStudentLabel">Add new book</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="addStudentform">
+          <div class="form-group">
+            <label for="studentNumber">Student Number</label>
+            <input type="number" name="studentNumber" class="form-control" required placeholder="Enter Title Here">
+          </div>
+          <div class="form-group">
+            <label for="studentName">Name</label>
+            <input type="text" name="studentName" class="form-control" required placeholder="Enter Destription Here">
+          </div>
+          <div class= "form-group">
+            <label for="course">Course</label>
+            <input type="text" name="course" class="form-control" required placeholder="Enter Author Here">
+          </div>
+          <div class= "form-group">
+            <label for="yearBlock">Year and Block</label>
+            <input type="number" name="yearBlock" class="form-control" required placeholder="Enter ISBN Here">
+          </div>
+          <div class= "form-group">
+            <label for="address">Address</label>
+            <input type="text" name="address" class="form-control" required placeholder="Enter ISBN Here">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="addStudentBtn" type="button" class="btn btn-primary">Add Student</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Student Form Modal -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editStudentLabel">Edit Student Information</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editStudentForm">
+          <div class="form-group">
+            <label for="studentNumber">Student Number</label>
+            <input type="number" name="updateStudentNumber" id="updateStudentNumber" class="form-control" required placeholder="Enter Title Here">
+            <input type="hidden" name="studentId" id="studentId">
+          </div>
+          <div class="form-group">
+            <label for="studentName">Name</label>
+            <input type="text" name="studentName" id="studentName" class="form-control" required placeholder="Enter Destription Here">
+          </div>
+          <div class= "form-group">
+            <label for="course">Course</label>
+            <input type="text" name="course" id="course" class="form-control" required placeholder="Enter Author Here">
+          </div>
+          <div class= "form-group">
+            <label for="yearBlock">Year and Block/label>
+            <input type="number" name="yearBlock" id="yearBlock" class="form-control" required placeholder="Enter ISBN Here">
+          </div>
+          <div class= "form-group">
+            <label for="address">Address/label>
+            <input type="text" name="address" id="address" class="form-control" required placeholder="Enter ISBN Here">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary updateStudentBtn" id="updateStudent" name="updateBtn">Save Changes</button>
       </div>
       </form>
     </div>
@@ -311,7 +401,7 @@
       });
     });
 
-    // Edit Book Button Function
+    // Edit Book Button Functionality
     $('.editBookBtn').on('click', function(e) {
       $('#editBookModal').modal('show');
         $.post('classes/Book.php', {editId: e.target.id}, function(data){
@@ -349,6 +439,88 @@
 
     //Delete Book Function
     $('.deleteBookBtn').on('click', function(e){
+      var deleteConfirm = confirm("Are you sure you want to delete this book?");
+      if(deleteConfirm){
+        $.post('classes/Book.php', {deleteId: e.target.id}, function(data){
+        var data  = JSON.parse(data);
+        
+        if(data.type == 'success'){
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
+      }else{
+        return false;
+      }
+    });
+
+    // Add Student Functionality
+    $('#addStudentBtn').on('click', function() {
+        $.post('classes/Student.php', $('form#addStudentform').serialize(), function(data){
+          var data  = JSON.parse(data);
+          // console.log(data);
+
+        if(data.type == 'success'){
+          $('#addStudent').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#addStudent').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
+    });
+
+    // Edit Student Button Functionality
+    $('.editStudentBtn').on('click', function(e) {
+      $('#editStudentModal').modal('show');
+        $.post('classes/Student.php', {editId: e.target.id}, function(data){
+          var data  = JSON.parse(data);
+          $('#studentId').val(data.studentId);
+          $('#updateStudentNumber').val(data.studentNumber);
+          $('#studentName').val(data.studentName);
+          $('#course').val(data.course);
+          $('#yearBlock').val(data.yearBlock);
+          $('#address').val(data.address);
+
+      });
+    });
+
+    // Edit Student Information Functionality
+    $('#updateStudent').on('click', function() {
+        $.post('classes/Student.php', $('form#editStudentForm').serialize(), function(data){
+          var data  = JSON.parse(data);
+
+        if(data.type == 'success'){
+          $('#editStudentModal').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#editStudentModal').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
+    });
+
+    // Delete Student Functionality
+    $('.deleteStudentBtn').on('click', function(e){
       var deleteConfirm = confirm("Are you sure you want to delete this book?");
       if(deleteConfirm){
         $.post('classes/Book.php', {deleteId: e.target.id}, function(data){
