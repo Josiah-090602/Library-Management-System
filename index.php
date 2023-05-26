@@ -21,83 +21,181 @@
   
 <body>
 
-<nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
+<nav class="navbar fixed-top navbar-expand-lg bg-primary" data-bs-theme="dark">
   <div class="container-fluid">
     <a class="navbar-brand mx-3" href="#"><i class= " mx-2 fa-solid fa-book-open"></i>Library Management System</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="mx-3 nav-link active" href="#">Dashboard</a>
-        </li>
-        <li class="nav-item">
-          <a class="mx-3 nav-link" href="#">Students</a>
-        </li>
-        <li class="nav-item">
-          <a class="mx-3 nav-link" href="#">Borrowed</a>
-        </li>
-      </ul>
+      <div class="nav flex-row nav-pills me-3" id="v-pills-tab" role="tablist">
+        <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Dashboard</button>
+        <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Students</button>
+        <button class="nav-link" id="v-pills-borrowed-tab" data-bs-toggle="pill" data-bs-target="#v-pills-borrowed" type="button" role="tab" aria-controls="v-pills-borrowed" aria-selected="false">Borrowed Books</button>
+      </div>
     </div>
   </div>
 </nav>
 
-<div class="mt-3 container">
-  <div class="row">
-    <div class="col-md-12">
-      <div class="card">
-        <div class="header card-header d-flex justify-content-between align-items-center">
-          <h5>List of Books</h5>
-          <div class="btn-con">
-            <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
-          </div>
-        </div>
-        <div class="card-body">
-            <table class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">Book ID</th>
-                  <th scope="col">Title</th>
-                  <th scope="col">Author</th>
-                  <th scope="col">ISBN</th>
-                  <th scope="col"></th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php 
-                    
-                    $bookObj = new Book();
-                    $books = $bookObj->getAllBooks();
-                    $no = 0;
-                    foreach ($books as $book):
-                      $no++;
-                ?>
-            
-                  <tr>
-                    <th scope="row"><?php echo $no; ?></th>
-                    <td>
-                      <?php echo $book['bookTitle']; ?>
-                    </td>
-                    <td>
-                      <?php echo $book['author']; ?>
-                    </td>
-                    <td>
-                      <?php echo $book['ISBN']; ?>
-                    </td>
-
-                    <td class="manage d-flex gap-2 justify-content-end">
-                      <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
-                      <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
-                    </td>
-                  </tr>
-                  <?php endforeach; ?>
-              </tbody>
-            </table>
-        </div>
+<div class="tab-content d-block pt-4" id="v-pills-tabContent">
+<!-- Dashboard Section -->
+<div class="tab-pane fade show active mx-5 mt-5 mb-4" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+  <div class="card">
+    <div class="header card-header d-flex justify-content-between align-items-center">
+      <h5>List of Books</h5>
+      <div class="btn-con">
+        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
       </div>
     </div>
+    <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Book ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">ISBN</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+                
+                $bookObj = new Book();
+                $books = $bookObj->getAllBooks();
+                $no = 0;
+                foreach ($books as $book):
+                  $no++;
+            ?>
+        
+              <tr>
+                <th scope="row"><?php echo $no; ?></th>
+                <td>
+                  <?php echo $book['bookTitle']; ?>
+                </td>
+                <td>
+                  <?php echo $book['author']; ?>
+                </td>
+                <td>
+                  <?php echo $book['ISBN']; ?>
+                </td>
+                <td class="manage d-flex gap-2 justify-content-end">
+                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
+                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+          </tbody>
+        </table>
+    </div>
   </div>
+</div>
+
+<!-- Students Section -->
+<div class="tab-pane fade  mx-5 mt-5 mb-4" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+  <div class="card">
+    <div class="header card-header d-flex justify-content-between align-items-center">
+      <h5>List of Students</h5>
+      <div class="btn-con">
+        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
+      </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Book ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">ISBN</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+                
+                $bookObj = new Book();
+                $books = $bookObj->getAllBooks();
+                $no = 0;
+                foreach ($books as $book):
+                  $no++;
+            ?>
+        
+              <tr>
+                <th scope="row"><?php echo $no; ?></th>
+                <td>
+                  <?php echo $book['bookTitle']; ?>
+                </td>
+                <td>
+                  <?php echo $book['author']; ?>
+                </td>
+                <td>
+                  <?php echo $book['ISBN']; ?>
+                </td>
+                <td class="manage d-flex gap-2 justify-content-end">
+                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
+                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
+
+<!-- Borrowed Section -->
+<div class="tab-pane fade  mx-5 mt-5 mb-4" id="v-pills-borrowed" role="tabpanel" aria-labelledby="v-pills-borrowed-tab" tabindex="0">
+  <div class="card">
+    <div class="header card-header d-flex justify-content-between align-items-center">
+      <h5>List of Borrowed Books</h5>
+      <div class="btn-con">
+        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
+      </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Book ID</th>
+              <th scope="col">Title</th>
+              <th scope="col">Author</th>
+              <th scope="col">ISBN</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php 
+                
+                $bookObj = new Book();
+                $books = $bookObj->getAllBooks();
+                $no = 0;
+                foreach ($books as $book):
+                  $no++;
+            ?>
+        
+              <tr>
+                <th scope="row"><?php echo $no; ?></th>
+                <td>
+                  <?php echo $book['bookTitle']; ?>
+                </td>
+                <td>
+                  <?php echo $book['author']; ?>
+                </td>
+                <td>
+                  <?php echo $book['ISBN']; ?>
+                </td>
+                <td class="manage d-flex gap-2 justify-content-end">
+                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
+                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                </td>
+              </tr>
+              <?php endforeach; ?>
+          </tbody>
+        </table>
+    </div>
+  </div>
+</div>
 </div>
 
 <!-- Add Form Modal -->
