@@ -1,5 +1,6 @@
 <?php
   include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/classes/Book.php';
+  include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/classes/Student.php';
 
   $db = new DBConnection(); 
 ?>
@@ -98,44 +99,52 @@
     <div class="header card-header d-flex justify-content-between align-items-center">
       <h5>List of Students</h5>
       <div class="btn-con">
-        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Student</button>
+        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
       </div>
     </div>
     <div class="card-body">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Book ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Author</th>
-              <th scope="col">ISBN</th>
+              <th scope="col">ID</th>
+              <th scope="col">ID Number</th>
+              <th scope="col">Name</th>
+              <th scope="col">Course</th>
+              <th scope="col">Year and Block</th>
+              <th scope="col">Address</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             <?php 
                 
-                $bookObj = new Book();
-                $books = $bookObj->getAllBooks();
+                $studentObj = new Student();
+                $students = $studentObj->getAllStudents();
                 $no = 0;
-                foreach ($books as $book):
+                foreach ($students as $student):
                   $no++;
             ?>
         
               <tr>
                 <th scope="row"><?php echo $no; ?></th>
                 <td>
-                  <?php echo $book['bookTitle']; ?>
+                  <?php echo $student['studentNumber']; ?>
                 </td>
                 <td>
-                  <?php echo $book['author']; ?>
+                  <?php echo $student['studentName']; ?>
                 </td>
                 <td>
-                  <?php echo $book['ISBN']; ?>
+                  <?php echo $student['course']; ?>
+                </td>
+                <td>
+                  <?php echo $student['yearBlock']; ?>
+                </td>
+                <td>
+                  <?php echo $student['address']; ?>
                 </td>
                 <td class="manage d-flex gap-2 justify-content-end">
-                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
-                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                  <button class="btn btn-primary btn-sm editStudentBtn" id="<?php echo $student['studentNumber'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
+                  <button class="btn btn-danger btn-sm deleteStudentBtn" id="<?php echo $student['studentNumber'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
                 </td>
               </tr>
               <?php endforeach; ?>
@@ -272,7 +281,7 @@
   </div>
 </div>
 
-<!-- Book Alert Modal -->
+<!-- Alert Modal -->
 <div class="modal fade" id="PopAlert" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -312,6 +321,7 @@
         }
       });
     });
+
     // Edit Book Button Function
     $('.editBookBtn').on('click', function(e) {
       $('#editBookModal').modal('show');
@@ -369,7 +379,6 @@
         return false;
       }
     });
-
 
   });
 </script>
