@@ -1,5 +1,8 @@
 <?php
-    class Student {
+    include $_SERVER['DOCUMENT_ROOT'].'/LibraryManagement/utility/DBConnection.php';
+
+       //Student Functions
+       class Student {
         public  $conn;
 
         public function __construct() {
