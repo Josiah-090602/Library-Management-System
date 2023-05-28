@@ -118,9 +118,9 @@
             $studentName = $post['studentName'];
             $course = $post['course'];
             $yearBlock = $post['yearBlock']; 
-            $address = $post['address'];
+            $studentAddress = $post['studentAddress'];
 
-            $sql = "INSERT INTO students (studentNumber, studentName, course, yearBlock, address) VALUES ('$studentNumber', '$studentName', '$course', '$yearBlock', '$address')";
+            $sql = "INSERT INTO students (studentNumber, studentName, course, yearBlock, studentAddress) VALUES ('$studentNumber', '$studentName', '$course', '$yearBlock', '$studentAddress')";
             $result = $this->conn->query($sql);
 
             if($result){
@@ -143,30 +143,30 @@
         }
 
         public function editStudent($editStudentId){
-            $sql = "SELECT * FROM students WHERE id = $editStudentId";
+            $sql = "SELECT * FROM students WHERE studentId = $editStudentId";
             $result = $this->conn->query($sql);
 
             if ($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){
-                    $data['id'] = $row['id'];
+                    $data['studentId'] = $row['studentId'];
                     $data['studentNumber'] = $row['studentNumber'];
                     $data['studentName'] = $row['studentName'];
                     $data['course'] = $row['course'];
                     $data['yearBlock'] = $row['yearBlock'];
-                    $data['address'] = $row['address'];
+                    $data['studentAddress'] = $row['studentAddress'];
                 }
                 return json_encode($data);
             }
         }
         public function updateStudent($post){
-            $id = $post['id'];
-            $studentNumber = $post['editStudentNumber'];
+            $studentId = $post['studentId'];
+            $studentNumber = $post['updateStudentNumber'];
             $studentName = $post['studentName'];
             $course = $post['course'];
             $yearBlock = $post['yearBlock'];
-            $address = $post['address'];
+            $studentAddress = $post['studentAddress'];
 
-            $sql = "UPDATE students SET studentNumber = $studentNumber, studentName = '$studentName', course = '$course', yearBlock = '$yearBlock', address = '$address' WHERE id = $id";
+            $sql = "UPDATE students SET studentNumber = '$studentNumber', studentName = '$studentName', course = '$course', yearBlock = '$yearBlock', studentAddress = '$studentAddress' WHERE studentId = $studentId";
             $result = $this->conn->query($sql);
 
             if($result){
@@ -176,7 +176,7 @@
             }
         }
         public function deleteStudent($deleteStudentId){
-            $sql = "DELETE FROM students WHERE studentNumber = $deleteStudentId";
+            $sql = "DELETE FROM students WHERE studentId = $deleteStudentId";
             $execute = $this->conn->query($sql);
             
             if($execute){
@@ -189,7 +189,7 @@
 
     $student = new Student();
 
-    if  (isset($_POST['studentNumber'])) {
+    if(isset($_POST['studentNumber'])) {
         $saveStudent = $student->saveStudent($_POST);
         echo $saveStudent;
     }
@@ -199,14 +199,13 @@
         echo $editStudent;
     }
     
-    if(isset($_POST['id'])){
+    if(isset($_POST['studentId'])){
         $updateStudent = $student->updateStudent($_POST);
         echo $updateStudent;
     }
 
     if(isset($_POST['deleteStudentId'])){
-        $deleteBook = $student->deleteStudent($_POST['deleteStudentId']);
-        echo $deleteBook;
+        $deleteStudent = $student->deleteStudent($_POST['deleteStudentId']);
+        echo $deleteStudent;
     }
-
 ?>
