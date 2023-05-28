@@ -10,15 +10,10 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Library Management System</title>
-
   <link rel="stylesheet" href="css/bootstrap.min.css">
- 
   <script src="https://kit.fontawesome.com/d68d9e7151.js" crossorigin="anonymous"></script>
-  
   <script src="https://code.jquery.com/jquery-3.7.0.js" integrity="sha256-JlqSTELeR4TLqP0OG9dxM7yDPqX1ox/HfgiSLBj8+kM=" crossorigin="anonymous"></script>
-  
   <script src="js/bootstrap.min.js"></script>
-  
 <body>
 
 <nav class="navbar fixed-top navbar-expand-lg bg-primary" data-bs-theme="dark">
@@ -515,8 +510,7 @@
         }
       });
     });
-
-
+    // Delete student functionality
 
   });
 </script>

@@ -167,7 +167,7 @@
             $address = $post['address'];
 
             $sql = "UPDATE students SET studentNumber = $studentNumber, studentName = '$studentName', course = '$course', yearBlock = '$yearBlock', address = '$address' WHERE id = $id";
-            $result = $this->conn->query($sql);
+            $result = $this->conn->query($sql); 
 
             if($result){
                 return json_encode(array('type' => 'success', 'message' => 'Student Details Updated.'));
