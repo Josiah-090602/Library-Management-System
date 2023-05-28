@@ -23,20 +23,25 @@
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-      <div class="nav flex-row nav-pills me-3" id="v-pills-tab" role="tablist">
-        <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Dashboard</button>
-        <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Students</button>
-        <button class="nav-link" id="v-pills-borrowed-tab" data-bs-toggle="pill" data-bs-target="#v-pills-borrowed" type="button" role="tab" aria-controls="v-pills-borrowed" aria-selected="false">Borrowed Books</button>
-      </div>
+      <ul class="nav nav-pills nav-underline gap-4 mx-4" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Dashboard</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Students</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-borrow-tab" data-bs-toggle="pill" data-bs-target="#pills-borrow" type="button" role="tab" aria-controls="pills-borrow" aria-selected="false">Borrowed</button>
+        </li>
+      </ul>
     </div>
   </div>
 </nav>
 
-<div class="tab-content d-block pt-4" id="v-pills-tabContent">
-
+<div class="tab-content" id="pills-tabContent">
 <!-- Dashboard Section -->
-<div class="tab-pane fade show active mx-5 mt-5 mb-4" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-  <div class="card">
+<div class="tab-pane fade show active mt-5 mx-5 my-4 pt-5" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+  <div class="card ">
     <div class="header card-header d-flex justify-content-between align-items-center">
       <h5>List of Books</h5>
       <div class="btn-con">
@@ -49,6 +54,7 @@
             <tr>
               <th scope="col">Book ID</th>
               <th scope="col">Title</th>
+              <th scope="col">Book Decription</th>
               <th scope="col">Author</th>
               <th scope="col">ISBN</th>
               <th scope="col"></th>
@@ -70,14 +76,18 @@
                   <?php echo $book['bookTitle']; ?>
                 </td>
                 <td>
+                  <?php echo $book['bookDesc']; ?>
+                </td>
+                <td>
                   <?php echo $book['author']; ?>
                 </td>
                 <td>
                   <?php echo $book['ISBN']; ?>
                 </td>
                 <td class="manage d-flex gap-2 justify-content-end">
-                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
-                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                  <button class="btn btn-primary btn-sm borrowBookBtn" id="<?php echo $book['bookId'];?>" >Borrow Book</button>
+                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" >Update</button>
+                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" >Delete</button>
                 </td>
               </tr>
               <?php endforeach; ?>
@@ -88,7 +98,7 @@
 </div>
 
 <!-- Students Section -->
-<div class="tab-pane fade  mx-5 mt-5 mb-4" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+<div class="tab-pane fade mt-5 mx-5 my-4 pt-5" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
   <div class="card">
     <div class="header card-header d-flex justify-content-between align-items-center">
       <h5>List of Students</h5>
@@ -101,8 +111,8 @@
           <thead>
             <tr>
               <th scope="col">ID</th>
-              <th scope="col">ID Number</th>
-              <th scope="col">Name</th>
+              <th scope="col">Student Number</th>
+              <th scope="col">Student Name</th>
               <th scope="col">Course</th>
               <th scope="col">Year and Block</th>
               <th scope="col">Address</th>
@@ -134,11 +144,11 @@
                   <?php echo $student['yearBlock']; ?>
                 </td>
                 <td>
-                  <?php echo $student['address']; ?>
+                  <?php echo $student['studentAddress']; ?>
                 </td>
                 <td class="manage d-flex gap-2 justify-content-end">
-                  <button class="btn btn-primary btn-sm editStudentBtn" id="<?php echo $student['id'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
-                  <button class="btn btn-danger btn-sm deleteStudentBtn" id="<?php echo $student['id'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                  <button class="btn btn-primary btn-sm editStudentBtn" id="<?php echo $student['studentId'];?>" >Update</button>
+                  <button class="btn btn-danger btn-sm deleteStudentBtn" id="<?php echo $student['studentId'];?>" >Delete</button>
                 </td>
               </tr>
               <?php endforeach; ?>
@@ -149,49 +159,49 @@
 </div>
 
 <!-- Borrowed Section -->
-<div class="tab-pane fade  mx-5 mt-5 mb-4" id="v-pills-borrowed" role="tabpanel" aria-labelledby="v-pills-borrowed-tab" tabindex="0">
+<div class="tab-pane fade mt-5 mx-5 my-4 pt-5" id="pills-borrow" role="tabpanel" aria-labelledby="pills-borrow-tab" tabindex="0">
   <div class="card">
     <div class="header card-header d-flex justify-content-between align-items-center">
       <h5>List of Borrowed Books</h5>
-      <div class="btn-con">
-        <button class="btn btn-success " data-bs-toggle="modal" data-bs-target="#addBook">Add Book</button>
-      </div>
     </div>
     <div class="card-body">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th scope="col">Book ID</th>
-              <th scope="col">Title</th>
-              <th scope="col">Author</th>
-              <th scope="col">ISBN</th>
+              <th scope="col">ID</th>
+              <th scope="col">Book Title</th>
+              <th scope="col">Student Number</th>
+              <th scope="col">Name</th>
+              <th scope="col">Date Borrowed</th>
               <th scope="col"></th>
             </tr>
           </thead>
           <tbody>
             <?php 
                 
-                $bookObj = new Book();
-                $books = $bookObj->getAllBooks();
+                $borrowObj = new Borrow();
+                $borrows = $borrowObj->getAllBorrow();
                 $no = 0;
-                foreach ($books as $book):
+                foreach ($borrows as $borrow):
                   $no++;
             ?>
         
               <tr>
                 <th scope="row"><?php echo $no; ?></th>
                 <td>
-                  <?php echo $book['bookTitle']; ?>
+                  <?php echo $borrow['borrowedBookTitle']; ?>
                 </td>
                 <td>
-                  <?php echo $book['author']; ?>
+                  <?php echo $borrow['studentNumber']; ?>
                 </td>
                 <td>
-                  <?php echo $book['ISBN']; ?>
+                  <?php echo $borrow['studentName']; ?>
+                </td>
+                <td>
+                  <?php echo $borrow['dateBorrowed']; ?>
                 </td>
                 <td class="manage d-flex gap-2 justify-content-end">
-                  <button class="btn btn-primary btn-sm editBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-regular fa-pen-to-square"></i>Update</button>
-                  <button class="btn btn-danger btn-sm deleteBookBtn" id="<?php echo $book['bookId'];?>" ><i class="fa-solid fa-trash mr-2"></i>Delete</button>
+                  <button class="btn btn-primary btn-sm " id="<?php echo $borrow['borrowId'];?>">Return</button>
                 </td>
               </tr>
               <?php endforeach; ?>
@@ -275,21 +285,6 @@
   </div>
 </div>
 
-<!-- Alert Modal -->
-<div class="modal fade" id="PopAlert" tabindex="-1" aria-labelledby="addBookLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="alertModal">Alert</h1>
-
-      </div>
-      <div class="modal-body">
-          <div class="alert"></div>
-      </div>
-    </div>
-  </div>
-</div>
-
 <!-- Add Student Form Modal -->
 <div class="modal fade" id="addStudent" tabindex="-1" aria-labelledby="addStudentLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -308,17 +303,17 @@
             <label for="studentName">Full Name</label>
             <input type="text" name="studentName" class="form-control" required placeholder="Enter Name Here">
           </div>
-          <div class= " form-group">
+          <div class="form-group">
             <label for="course">Course</label>
             <input type="text" name="course" class="form-control" required placeholder="Enter Course Here">
           </div>
-          <div class= "form-group">
+          <div class="form-group">
             <label for="yearBlock">Year and Block</label>
             <input type="text" name="yearBlock" class="form-control" required placeholder="Enter Year and Block Here">
           </div>
-          <div class= "form-group">
-            <label for="address">Address</label>
-            <input type="text" name="address" class="form-control" required placeholder="Enter Year and Block Here">
+          <div class="form-group">
+            <label for="studentAddress">Address</label>
+            <input type="text" name="studentAddress" class="form-control" required placeholder="Enter Address Here">
           </div>
         </form>
       </div>
@@ -326,6 +321,43 @@
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
         <button id="addStudentBtn" type="button" class="btn btn-primary">Register New Student</button>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- Borrow Book Form Modal -->
+<div class="modal fade" id="borrowBook" tabindex="-1" aria-labelledby="borrowBookLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="borrowBookLabel">Borrow Book</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="borrowBookForm">
+          <div class="form-group">
+            <label for="borrowedBookTitle">Book Title</label>
+            <input type="text" name="borrowedBookTitle" id="borrowedBookTitle" class="form-control" required placeholder="Enter Title Here">
+            <input type="hidden" name="bookId" id="bookId">
+          </div>
+          <div class="form-group">
+            <label for="studentNumber">Student Number</label>
+            <input type="text" name="studentNumber" id="studentNumber" class="form-control" required placeholder="Enter Destription Here">
+          </div>
+          <div class= " form-group">
+            <label for="studentName">Student Name</label>
+            <input type="text" name="studentName" id="studentName" class="form-control" required placeholder="Enter Author Here">
+          </div>
+          <div class= "form-group">
+            <label for="dateBorrowed">Date</label>
+            <input type="date" name="dateBorrowed" id="dateBorrowed" class="form-control" required placeholder="Enter ISBN Here">
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button id="borrowBookBtn" type="button" class="btn btn-primary">Borrow</button>
+      </div>
+      </form>
     </div>
   </div>
 </div>
@@ -342,8 +374,8 @@
         <form id="editStudentForm">
           <div class="form-group">
             <label for="studentNumber">Student Number</label>
-            <input type="number" name="editStudentNumber" id="editStudentNumber" class="form-control" required placeholder="Enter Number Here">
-            <input type="hidden" name="id" id="id">
+            <input type="text" name="updateStudentNumber" id="editStudentNumber" class="form-control" required placeholder="Enter Number Here">
+            <input type="hidden" name="studentId" id="studentId">
           </div>
           <div class="form-group">
             <label for="studentName">Full Name</label>
@@ -358,8 +390,8 @@
             <input type="text" name="yearBlock" id="yearBlock" class="form-control" required placeholder="Enter Year and Block Here">
           </div>
           <div class= "form-group">
-            <label for="address">Address</label>
-            <input type="text" name="address" id="address" class="form-control" required placeholder="Enter Address">
+            <label for="studentAddress">Address</label>
+            <input type="text" name="studentAddress" id="address" class="form-control" required placeholder="Enter Address">
           </div>
       </div>
       <div class="modal-footer">
@@ -371,7 +403,20 @@
   </div>
 </div>
 
- 
+<!-- Alert Modal -->
+<div class="modal fade" id="PopAlert" tabindex="-1" aria-labelledby="borrowBookLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="alertModal">Alert</h1>
+
+      </div>
+      <div class="modal-body">
+          <div class="alert"></div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -396,7 +441,6 @@
         }
       });
     });
-
     // Edit Book Button Function
     $('.editBookBtn').on('click', function(e) {
       $('#editBookModal').modal('show');
@@ -440,20 +484,57 @@
         
         if(data.type == 'success'){
           $('#PopAlert').modal('show');
-          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(500).fadeOut('slow',function(){
             location.reload();
           });
         }else{
           $('#PopAlert').modal('show');
-          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(500).fadeOut('slow',function(){
             location.reload();
           });
         }
       });
       }else{
         return false;
-      }
+      }    
     });
+
+
+
+    // Borrow Book Button Function
+    $('.borrowBookBtn').on('click', function(e) {
+      $('#borrowBook').modal('show');
+        $.post('classes/Functions.php', {addBorrowId: e.target.id}, function(data){
+          var data  = JSON.parse(data);
+          // console.log(data);
+          $('#bookId').val(data.bookId);
+          $('#borrowedBookTitle').val(data.bookTitle);
+      });
+    });
+    $('#borrowBookBtn').on('click', function() {
+        $.post('classes/Functions.php', $('form#borrowBookForm').serialize(), function(data){
+          var data  = JSON.parse(data);
+          // console.log(data);
+
+        if(data.type == 'success'){
+          $('#borrowBook').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#borrowBook').modal('hide');
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
+    });
+
+
+
+
 
     // Add Student Functionality
     $('#addStudentBtn').on('click', function() {
@@ -482,17 +563,17 @@
         $.post('classes/Functions.php', {editStudentId: e.target.id}, function(data){
           var data  = JSON.parse(data);
           // console.log(data);
-          $('#id').val(data.id);
+          $('#studentId').val(data.studentId);
           $('#editStudentNumber').val(data.studentNumber);
           $('#studentName').val(data.studentName);
           $('#course').val(data.course);
           $('#yearBlock').val(data.yearBlock);
-          $('#address').val(data.address);
+          $('#studentAddress').val(data.studentAddress);
       });
     });
     // Edit Student Functionality
     $('#updateStudentBtn').on('click', function() {
-        $.post('classes/Functions.php', $('form#editBookForm').serialize(), function(data){
+        $.post('classes/Functions.php', $('form#editStudentForm').serialize(), function(data){
           var data  = JSON.parse(data);
 
         if(data.type == 'success'){
@@ -510,7 +591,31 @@
         }
       });
     });
-    // Delete student functionality
+    // Delete Student Functionality
+    $('.deleteStudentBtn').on('click', function(e){
+      var deleteConfirm = confirm("Are you sure you want to delete this student?");
+      if(deleteConfirm){
+        $.post('classes/Functions.php', {deleteStudentId: e.target.id}, function(data){
+        var data  = JSON.parse(data);
+        
+        if(data.type == 'success'){
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-success').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }else{
+          $('#PopAlert').modal('show');
+          $('#PopAlert .alert').addClass('alert-danger').append(data.message).delay(1500).fadeOut('slow',function(){
+            location.reload();
+          });
+        }
+      });
+      }else{
+        return false;
+      }
+    });
+
+
 
   });
 </script>

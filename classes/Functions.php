@@ -9,7 +9,6 @@
             $db  = new DBConnection();
             $this->conn = $db->conn;
         }
-
         public function saveBook($post){
             $bookTitle = $post['bookTitle'];
             $bookDesc = $post['bookDesc'];
@@ -25,7 +24,6 @@
                 return json_encode(array('type' => 'fail', 'message' => 'Book Failed to Save'));
             }
         }
-        
         public function getAllBooks(){
             $sql = "SELECT * FROM books";
             $result = $this->conn->query($sql);
@@ -37,7 +35,6 @@
                 return $books;
             }
         }
-
         public function editBook($editId){
             $sql = "SELECT * FROM books WHERE bookId = $editId";
             $result = $this->conn->query($sql);
@@ -78,27 +75,61 @@
             }else{
                 return json_encode(array('type' => 'fail', 'message' => 'Unable to Delete Book Details'));
             }
-        } 
+        }
+        public function borrowBookShow($addBorrowId){
+            $sql = "SELECT * FROM books WHERE bookId = $addBorrowId";
+            $result = $this->conn->query($sql);
+
+            if ($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    $data['bookId'] = $row['bookId'];
+                    $data['bookTitle'] = $row['bookTitle'];
+                }
+                return json_encode($data);
+            }
+        }
+        public function borrowBook($post){
+            $borrowedBookTitle = $post['borrowedBookTitle'];
+            $studentNumber = $post['studentNumber'];
+            $studentName = $post['studentName'];
+            $dateBorrowed = $post['dateBorrowed'];
+
+            $sql = "INSERT INTO borrows (borrowedBookTitle, studentNumber, studentName, dateBorrowed) VALUES ('$borrowedBookTitle', '$studentNumber', '$studentName', '$dateBorrowed')";
+            $result = $this->conn->query($sql);
+
+            if($result){
+                return json_encode(array('type' => 'success', 'message' => 'Book Borrowed Successfully'));
+            }else{
+                return json_encode(array('type' => 'fail', 'message' => 'Book Failed to Borrow'));
+            }
+        }
+        
     }
 
     $book = new Book();
 
-    if  (isset($_POST['bookTitle'])) {
+    if(isset($_POST['bookTitle'])) {
 
         $saveBook = $book->saveBook($_POST);
         echo $saveBook;
     }
-
     if(isset($_POST['editId'])) {
         $editBook = $book->editBook($_POST['editId']);
         echo $editBook;
     }
-    
+    if(isset($_POST['addBorrowId'])) {
+        $borrowBookShow = $book->borrowBookShow($_POST['addBorrowId']);
+        echo $borrowBookShow;
+    }
+    if(isset($_POST['borrowedBookTitle'])) {
+
+        $borrowBook = $book->borrowBook($_POST);
+        echo $borrowBook;
+    }
     if(isset($_POST['bookId'])){
         $updateBook = $book->updateBook($_POST);
         echo $updateBook;
     }
-
     if(isset($_POST['deleteId'])){
         $deleteBook = $book->deleteBook($_POST['deleteId']);
         echo $deleteBook;
@@ -118,9 +149,9 @@
             $studentName = $post['studentName'];
             $course = $post['course'];
             $yearBlock = $post['yearBlock']; 
-            $address = $post['address'];
+            $studentAddress = $post['studentAddress'];
 
-            $sql = "INSERT INTO students (studentNumber, studentName, course, yearBlock, address) VALUES ('$studentNumber', '$studentName', '$course', '$yearBlock', '$address')";
+            $sql = "INSERT INTO students (studentNumber, studentName, course, yearBlock, studentAddress) VALUES ('$studentNumber', '$studentName', '$course', '$yearBlock', '$studentAddress')";
             $result = $this->conn->query($sql);
 
             if($result){
@@ -143,31 +174,31 @@
         }
 
         public function editStudent($editStudentId){
-            $sql = "SELECT * FROM students WHERE id = $editStudentId";
+            $sql = "SELECT * FROM students WHERE studentId = $editStudentId";
             $result = $this->conn->query($sql);
 
             if ($result->num_rows > 0){
                 while($row = $result->fetch_assoc()){
-                    $data['id'] = $row['id'];
+                    $data['studentId'] = $row['studentId'];
                     $data['studentNumber'] = $row['studentNumber'];
                     $data['studentName'] = $row['studentName'];
                     $data['course'] = $row['course'];
                     $data['yearBlock'] = $row['yearBlock'];
-                    $data['address'] = $row['address'];
+                    $data['studentAddress'] = $row['studentAddress'];
                 }
                 return json_encode($data);
             }
         }
         public function updateStudent($post){
-            $id = $post['id'];
-            $studentNumber = $post['editStudentNumber'];
+            $studentId = $post['studentId'];
+            $studentNumber = $post['updateStudentNumber'];
             $studentName = $post['studentName'];
             $course = $post['course'];
             $yearBlock = $post['yearBlock'];
-            $address = $post['address'];
+            $studentAddress = $post['studentAddress'];
 
-            $sql = "UPDATE students SET studentNumber = $studentNumber, studentName = '$studentName', course = '$course', yearBlock = '$yearBlock', address = '$address' WHERE id = $id";
-            $result = $this->conn->query($sql); 
+            $sql = "UPDATE students SET studentNumber = '$studentNumber', studentName = '$studentName', course = '$course', yearBlock = '$yearBlock', studentAddress = '$studentAddress' WHERE studentId = $studentId";
+            $result = $this->conn->query($sql);
 
             if($result){
                 return json_encode(array('type' => 'success', 'message' => 'Student Details Updated.'));
@@ -176,7 +207,7 @@
             }
         }
         public function deleteStudent($deleteStudentId){
-            $sql = "DELETE FROM students WHERE studentNumber = $deleteStudentId";
+            $sql = "DELETE FROM students WHERE studentId = $deleteStudentId";
             $execute = $this->conn->query($sql);
             
             if($execute){
@@ -189,7 +220,7 @@
 
     $student = new Student();
 
-    if  (isset($_POST['studentNumber'])) {
+    if(isset($_POST['studentNumber'])) {
         $saveStudent = $student->saveStudent($_POST);
         echo $saveStudent;
     }
@@ -199,14 +230,34 @@
         echo $editStudent;
     }
     
-    if(isset($_POST['id'])){
+    if(isset($_POST['studentId'])){
         $updateStudent = $student->updateStudent($_POST);
         echo $updateStudent;
     }
 
     if(isset($_POST['deleteStudentId'])){
-        $deleteBook = $student->deleteStudent($_POST['deleteStudentId']);
-        echo $deleteBook;
+        $deleteStudent = $student->deleteStudent($_POST['deleteStudentId']);
+        echo $deleteStudent;
     }
+    class Borrow {
+        public  $conn;
 
+        public function __construct() {
+            $db  = new DBConnection();
+            $this->conn = $db->conn;
+        }
+
+        public function getAllBorrow(){
+            $sql = "SELECT * FROM borrows";
+            $result = $this->conn->query($sql);
+            $borrows = array();
+            if($result->num_rows > 0){
+                while($row = $result->fetch_assoc()){
+                    $borrows[] = $row;
+                }
+                return $borrows;
+            }
+        }
+    }
+    
 ?>
